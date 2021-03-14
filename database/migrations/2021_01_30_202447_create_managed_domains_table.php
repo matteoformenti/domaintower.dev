@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateManagedDomainsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('managed_domains', function (Blueprint $table) {
@@ -19,16 +14,13 @@ class CreateManagedDomainsTable extends Migration
             $table->foreignId('property_id');
             $table->string('name')->index();
             $table->string('operation')->index()->default(ManagedDomainOperation::EMPTY());
-            $table->text('options')->nullable();
+            $table->string('redirect_url')->nullable()->index();
+            $table->unsignedTinyInteger('redirect_code')->nullable()->index();
+            $table->foreignId('page_id')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('managed_domains');

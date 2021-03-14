@@ -5,24 +5,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrganizationTable extends Migration
+class CreateOrganizationsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::table('organizations', function (Blueprint $table) {
+        Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('icon')->nullable();
             $table->timestamps();
-            $table->softDeletes()->index();
+            $table->softDeletes();
         });
 
-        Schema::table('organization_user', function(Blueprint $table) {
+        Schema::create('organization_user', function(Blueprint $table) {
             $table->foreignId('organization_id');
             $table->foreignId('user_id');
             $table->string('role')->index()->default(UserOrganizationRole::ADMIN);
@@ -30,11 +25,6 @@ class CreateOrganizationTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('organization_user');
